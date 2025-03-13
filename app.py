@@ -41,6 +41,7 @@ def ICA_console_page():
             ## ICA id
             ICA_id = st.selectbox("Select the ICA id", ICA_ids)
             if st.form_submit_button("Add"):
+                st.session_state.participants.append({"id": len(st.session_state.participants) + 1, "name": name, "whatsapp": wa_number, "language": language, "ICA": ICA_id})
                 st.success("Participant added successfully")
                 st.rerun()
 
