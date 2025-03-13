@@ -10,18 +10,19 @@ st.session_state["participants"] = []
 
 ## login to ICA console
 def login_page():
+    st.title("ICA Chatbot Console")
     username = st.text_input("Enter your username")
     password = st.text_input("Enter your password")
     if st.button("Login"):
         if ICA_console_login(username, password):
             st.success("Login successful")
-        st.session_state["logged_in"] = True
-    else:
-        st.error("Login failed")
+            st.session_state["logged_in"] = True
+        else:
+            st.error("Login failed")
 
 
 def ICA_console_page():
-    st.title("ICA Console")
+    st.title("ICA Chatbot Console")
     st.write("Welcome to the ICA Console")
 
     ## get all the ICA ids from irister server
