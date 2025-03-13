@@ -17,6 +17,7 @@ def login_page():
         if ICA_console_login(username, password):
             st.success("Login successful")
             st.session_state["logged_in"] = True
+            st.rerun()
         else:
             st.error("Login failed")
 
