@@ -31,19 +31,21 @@ def ICA_console_page():
     ## display the ICA console
     
     ## add new participants form
-    with st.form("add_participants"):
-        name = st.text_input("Enter the name of the participant")
-        wa_number = st.text_input("Enter the WhatsApp number of the participant")
-        ## prefered language
-        language = st.selectbox("Select the preferred language", ["English", "Spanish"])
-        ## ICA id
-        ICA_id = st.selectbox("Select the ICA id", ICA_ids)
-        if st.form_submit_button("Add"):
-            st.success("Participant added successfully")
+    ## collapsable form
+    with st.expander("Add Participant"):
+        with st.form("add_participants"):
+            name = st.text_input("Enter the name of the participant")
+            wa_number = st.text_input("Enter the WhatsApp number of the participant")
+            ## prefered language
+            language = st.selectbox("Select the preferred language", ["English", "Spanish"])
+            ## ICA id
+            ICA_id = st.selectbox("Select the ICA id", ICA_ids)
+            if st.form_submit_button("Add"):
+                st.success("Participant added successfully")
 
 
 
-    st.subheader("Participants")
+    st.subheader("Participants database")
 
     if 'participants' not in st.session_state:
         st.session_state.participants = [
@@ -57,22 +59,24 @@ def ICA_console_page():
     else:
         ## editable table
         for i, participant in enumerate(st.session_state.participants):
-            col1, col2, col3, col4, col5, col6 = st.columns([4, 3, 3, 2, 2, 2])
-            with col1:
+            name_col, wa_col, lang_col, ica_col, edit_col, delete_col, send_col = st.columns([2, 2, 2, 2, 2, 2, 2])
+            with name_col:
                 st.write(participant["name"])
-            with col2:
+            with wa_col:
                 st.write(participant["whatsapp"])
-            with col3:
+            with lang_col:
                 st.write(participant["language"])
-            with col4:
+            with ica_col:
+                st.write(participant["ICA"]) 
+            with edit_col:
                 if st.button("Edit", key=f"edit_{i}"):
                     st.session_state.edit_participant_id = participant["id"]
                     st.session_state.edit_mode = True
-            with col5:
+            with delete_col:
                 if st.button("Delete", key=f"delete_{i}"):
                     st.session_state.participants.remove(participant)
                     st.rerun()
-            with col6:
+            with send_col:
                 if st.button("Send Message", key=f"send_message_{i}"):
                     st.success("Message sent successfully")
         
