@@ -12,7 +12,7 @@ st.session_state["participants"] = []
 def login_page():
     st.title("ICA Chatbot Console")
     username = st.text_input("Enter your username")
-    password = st.text_input("Enter your password")
+    password = st.text_input("Enter your password", type="password")
     if st.button("Login"):
         if ICA_console_login(username, password):
             st.success("Login successful")
