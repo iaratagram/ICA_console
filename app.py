@@ -43,6 +43,12 @@ def ICA_console_page():
             if st.form_submit_button("Add"):
                 st.session_state.participants.append({"id": len(st.session_state.participants) + 1, "name": name, "whatsapp": wa_number, "language": language, "ICA": ICA_id})
                 st.success("Participant added successfully")
+                ## clear the form
+                st.session_state.name = ""
+                st.session_state.wa_number = ""
+                st.session_state.language = ""
+                st.session_state.ICA_id = ""
+
                 st.rerun()
 
 
