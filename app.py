@@ -4,8 +4,6 @@ from irister_utils import ICA_console_login, get_ICA_ids
 
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
-if "participants" not in st.session_state:
-    st.session_state["participants"] = []
 
 
 
