@@ -42,6 +42,7 @@ def ICA_console_page():
             ICA_id = st.selectbox("Select the ICA id", ICA_ids)
             if st.form_submit_button("Add"):
                 st.success("Participant added successfully")
+                st.rerun()
 
 
 
@@ -110,18 +111,6 @@ def ICA_console_page():
                             st.rerun()
 
     
-
-    
-
-
-    
-
-
-
-
-
-        
-
 def main():
     if st.session_state["logged_in"]:
         ICA_console_page()
