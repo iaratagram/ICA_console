@@ -6,6 +6,7 @@ if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
 
+ICA_ids = get_ICA_ids()
 
 ## login to ICA console
 def login_page():
@@ -21,38 +22,23 @@ def login_page():
             st.error("Login failed")
 
 
-def ICA_console_page():
-    st.title("ICA Chatbot Console")
-    st.write("Welcome to the ICA Console")
-
-    ## get all the ICA ids from irister server
-    ICA_ids = get_ICA_ids()
-
-    ## display the ICA console
-    
+def add_participants_page():
+    st.title("Add Participants")
     ## add new participants form
-    ## collapsable form
-    with st.expander("Add Participant"):
-        with st.form("add_participants"):
-            name = st.text_input("Enter the name of the participant")
-            wa_number = st.text_input("Enter the WhatsApp number of the participant")
-            ## prefered language
-            language = st.selectbox("Select the preferred language", ["English", "Spanish"])
-            ## ICA id
-            ICA_id = st.selectbox("Select the ICA id", ICA_ids)
-            if st.form_submit_button("Add"):
-                st.session_state.participants.append({"id": len(st.session_state.participants) + 1, "name": name, "whatsapp": wa_number, "language": language, "ICA": ICA_id})
-                st.success("Participant added successfully")
-                ## clear the form
-                st.session_state.name = ""
-                st.session_state.wa_number = ""
-                st.session_state.language = ""
-                st.session_state.ICA_id = ""
-                st.warning("Participant added successfully")
-                st.rerun()
+    with st.form("add_participants"):
+        name = st.text_input("Enter the name of the participant")
+        wa_number = st.text_input("Enter the WhatsApp number of the participant")
+        ## prefered language
+        language = st.selectbox("Select the preferred language", ["English", "Spanish"])
+        ## ICA id
+        ICA_id = st.selectbox("Select the ICA id", ICA_ids)
+        if st.form_submit_button("Add"):
+            st.session_state.participants.append({"id": len(st.session_state.participants) + 1, "name": name, "whatsapp": wa_number, "language": language, "ICA": ICA_id})
+            st.success("Participant added successfully")
 
 
-
+def participants_database_page():
+    st.title("Participants Database")
     st.subheader("Participants database")
 
     if 'participants' not in st.session_state:
@@ -67,7 +53,7 @@ def ICA_console_page():
     else:
         ## editable table
         for i, participant in enumerate(st.session_state.participants):
-            name_col, wa_col, lang_col, ica_col, edit_col, delete_col, send_col = st.columns([2, 3, 2, 2, 2, 2, 4])
+            name_col, wa_col, lang_col, ica_col, edit_col, delete_col, send_col = st.columns([2, 3, 2, 3, 2, 2, 4])
             with name_col:
                 st.write(participant["name"])
             with wa_col:
@@ -116,6 +102,31 @@ def ICA_console_page():
                         if st.form_submit_button("Cancel"):
                             st.session_state.edit_mode = False
                             st.rerun()
+
+
+
+def ICA_console_page():
+    ## sidebar
+    with st.sidebar:
+        st.title("ICA Console")
+        st.write("Welcome to the ICA Console")
+        ## navigation to add participants page or participants database page
+        if st.button("Add Participants"):
+            st.session_state["page"] = "add_participants"
+            st.rerun()
+        if st.button("Participants Database"):
+            st.session_state["page"] = "participants_database"
+            st.rerun()
+
+
+    if st.session_state["page"] == "add_participants":
+        add_participants_page()
+    elif st.session_state["page"] == "participants_database":
+        participants_database_page()
+
+    
+
+
 
     
 def main():
