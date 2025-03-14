@@ -5,6 +5,9 @@ from irister_utils import ICA_console_login, get_ICA_ids
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
+if "page" not in st.session_state:
+    st.session_state["page"] = "participants_database"
+
 
 ICA_ids = get_ICA_ids()
 
@@ -111,10 +114,10 @@ def ICA_console_page():
         st.title("ICA Console")
         st.write("Welcome to the ICA Console")
         ## navigation to add participants page or participants database page
-        if st.button("Add Participants"):
+        if st.button("Add Participants", "add_participants", type="secondary"):
             st.session_state["page"] = "add_participants"
             st.rerun()
-        if st.button("Participants Database"):
+        if st.button("Participants Database", "participants_database", type="secondary"):
             st.session_state["page"] = "participants_database"
             st.rerun()
 
