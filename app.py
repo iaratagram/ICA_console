@@ -48,7 +48,7 @@ def ICA_console_page():
                 st.session_state.wa_number = ""
                 st.session_state.language = ""
                 st.session_state.ICA_id = ""
-
+                st.warning("Participant added successfully")
                 st.rerun()
 
 
