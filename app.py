@@ -56,7 +56,7 @@ def participants_database_page():
     else:
         ## editable table
         for i, participant in enumerate(st.session_state.participants):
-            name_col, wa_col, lang_col, ica_col, edit_col, delete_col, send_col = st.columns([2, 3, 2, 3, 2, 3, 5])
+            name_col, wa_col, lang_col, ica_col, edit_col, delete_col, send_col = st.columns([2, 3, 2, 3, 2, 3, 6])
             with name_col:
                 st.write(participant["name"])
             with wa_col:
