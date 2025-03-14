@@ -61,4 +61,12 @@ def get_ICA_ids():
     # response = requests.get(url, headers=headers)
     # return response.json()
 
+def get_all_participants_paginated(page=1, page_size=10):
+    url = f"{irister_url}/ica/get_all_participants"
+    headers = {
+        "Authorization": f"Bearer {irister_key}",
+        "Content-Type": "application/json"
+    }
+    response = requests.get(url, headers=headers, params={"page": page, "page_size": page_size})
+    return response.json()
 

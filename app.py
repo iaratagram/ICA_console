@@ -56,7 +56,7 @@ def participants_database_page():
     else:
         ## editable table
         for i, participant in enumerate(st.session_state.participants):
-            name_col, wa_col, lang_col, ica_col, edit_col, delete_col, send_col = st.columns([2, 3, 2, 3, 2, 3, 4])
+            name_col, wa_col, lang_col, ica_col, edit_col, delete_col, send_col = st.columns([2, 3, 2, 3, 2, 3, 5])
             with name_col:
                 st.write(participant["name"])
             with wa_col:
@@ -74,7 +74,7 @@ def participants_database_page():
                     st.session_state.participants.remove(participant)
                     st.rerun()
             with send_col:
-                if st.button("Send Message", key=f"send_message_{i}"):
+                if st.button("Send Template Greeting Message", key=f"send_message_{i}"):
                     st.success("Message sent successfully")
         
         ## edit participant form
