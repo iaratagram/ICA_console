@@ -38,7 +38,7 @@ def add_participants_page():
         ## ICA id
         ICA_id = st.selectbox("Select the ICA id", ICA_ids)
         if st.form_submit_button("Add"):
-            st.session_state.participants.append({"id": len(st.session_state.participants) + 1, "name": name, "whatsapp": wa_number, "language": language, "ICA": ICA_id})
+            ## add to database logic here
             st.success("Participant added successfully")
 
 
@@ -67,7 +67,7 @@ def participants_database_page():
                 st.write(participant["assigned_ica_id"]) 
             with edit_col:
                 if st.button("Edit", key=f"edit_{i}"):
-                    st.session_state.edit_participant_id = participant["id"]
+                    st.session_state.edit_participant_id = participant["_id"]
                     st.session_state.edit_mode = True
             with delete_col:
                 if st.button("Delete", key=f"delete_{i}"):
@@ -81,7 +81,7 @@ def participants_database_page():
         if st.session_state.get("edit_mode", False):
             st.subheader("Edit Participant")
             edit_id = st.session_state.edit_participant_id
-            participant_to_edit = next((p for p in st.session_state.participants if p["id"] == edit_id), None)
+            participant_to_edit = next((p for p in st.session_state.participants if p["_id"] == edit_id), None)
             
             if participant_to_edit:
                 with st.form("edit_participant_form"):
