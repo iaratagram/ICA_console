@@ -1,5 +1,5 @@
 import streamlit as st
-from irister_utils import ICA_console_login, get_ICA_ids
+from irister_utils import ICA_console_login, get_ICA_data, get_all_participants
 
 
 if "logged_in" not in st.session_state:
@@ -9,7 +9,9 @@ if "page" not in st.session_state:
     st.session_state["page"] = "participants_database"
 
 
-ICA_ids = get_ICA_ids()
+ICA_list = get_ICA_data()
+ICA_ids = [item["ic_id"] for item in ICA_list]
+
 
 ## login to ICA console
 def login_page():
@@ -44,11 +46,9 @@ def participants_database_page():
     st.title("Participants Database")
     st.subheader("Participants database")
 
-    if 'participants' not in st.session_state:
-        st.session_state.participants = [
-            {"id": 1, "name": "May", "whatsapp": "+12063339999", "language": "Spanish", "ICA": "Casey_chat"},
-            {"id": 2, "name": "John Doe", "whatsapp": "+12063328999", "language": "English", "ICA": "Casey_chat"},
-        ]
+    ## get all participants
+    st.session_state.participants = get_all_participants()
+
     
     ## if no participants, show a message
     if not st.session_state.participants:
@@ -60,11 +60,11 @@ def participants_database_page():
             with name_col:
                 st.write(participant["name"])
             with wa_col:
-                st.write(participant["whatsapp"])
+                st.write(participant["whatsapp_number"])
             with lang_col:
-                st.write(participant["language"])
+                st.write(participant["user_language_option"])
             with ica_col:
-                st.write(participant["ICA"]) 
+                st.write(participant["assigned_ica_id"]) 
             with edit_col:
                 if st.button("Edit", key=f"edit_{i}"):
                     st.session_state.edit_participant_id = participant["id"]
@@ -86,18 +86,18 @@ def participants_database_page():
             if participant_to_edit:
                 with st.form("edit_participant_form"):
                     new_name = st.text_input("name", value=participant_to_edit["name"])
-                    new_whatsapp = st.text_input("WhatsApp number", value=participant_to_edit["whatsapp"])
-                    new_language = st.selectbox("Preferred Language", ["English", "Spanish"], 
-                                              index=0 if participant_to_edit["language"] == "English" else 1)
-                    new_ICA = st.selectbox("ICA id", ICA_ids, index=ICA_ids.index(participant_to_edit["ICA"]))
+                    new_whatsapp = st.text_input("WhatsApp number", value=participant_to_edit["whatsapp_number"])
+                    new_language = st.selectbox("Preferred Language", ["en", "es"], 
+                                              index=0 if participant_to_edit["user_language_option"] == "en" else 1)
+                    new_ICA = st.selectbox("ICA id", ICA_ids, index=ICA_ids.index(participant_to_edit["assigned_ica_id"]))
                     
                     col1, col2 = st.columns(2)
                     with col1:
                         if st.form_submit_button("Save"):
                             participant_to_edit["name"] = new_name
-                            participant_to_edit["whatsapp"] = new_whatsapp
-                            participant_to_edit["language"] = new_language
-                            participant_to_edit["ICA"] = new_ICA
+                            participant_to_edit["whatsapp_number"] = new_whatsapp
+                            participant_to_edit["user_language_option"] = new_language
+                            participant_to_edit["assigned_ica_id"] = new_ICA
                             st.session_state.edit_mode = False
                             st.success("Participant information updated")
                             st.rerun()
