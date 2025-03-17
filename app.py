@@ -56,7 +56,7 @@ def participants_database_page():
     else:
         ## editable table
         for i, participant in enumerate(st.session_state.participants):
-            name_col, wa_col, lang_col, ica_col, edit_col, delete_col, send_col = st.columns([3, 6, 2, 4, 3, 3, 6])
+            name_col, wa_col, lang_col, ica_col, edit_col, delete_col, send_col = st.columns([4, 4, 1, 3, 3, 3, 6])
             participant["whatsapp_number"] = participant["whatsapp_number"].replace("whatsapp:", "")
             with name_col:
                 st.write(participant["name"])
